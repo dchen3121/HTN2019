@@ -88,5 +88,5 @@ def classify_image():
         #TODO: depending on result, call update_slouch_data() and send_slouch_notif() (both in user class)
         if 'SLOUCHING':
             user = User.find_by_email(session['email'])
-            user.update_slouch_data()
+            user.update_slouch_data(email)
             user.send_slouch_notif()

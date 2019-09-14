@@ -27,7 +27,7 @@ class User(Model):
     @classmethod
     def find_by_email(cls, email: str) -> "User":
         try:
-            return cls.find_one_by('email', email)
+            return cls.find(email)
         except TypeError:
             # user not found by email
             raise errors.UserNotFoundError('A user with this email was not found.')
@@ -49,15 +49,15 @@ class User(Model):
     @classmethod
     def is_login_valid(cls, email: str, password: str) -> bool:
         user = cls.find_by_email(email)
-        if not Utils.check_hashed_password(password, user.password):
+        if not Utils.check_hashed_password(password, user['password']): #XXX: not sure what object user will be
             raise errors.IncorrectPasswordError('The password entered was incorrect.')
         return True
 
     @classmethod
-    def update_slouch_data():
+    def update_slouch_data(email: str):
     #update times slouched list
-    #TODO: does mongo have same specifics (or can we just update and it'll create regardless?)
-    #TODO: remove the users.val(); still want to find+update data
+    user = cls.find_by_email(email)
+    
     if users.val() == None:
         #SET initial data value for user
         data[6]['numSlouch'] = data[6]['numSlouch'] = data[6]['numSlouch'] + 1

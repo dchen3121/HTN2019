@@ -16,7 +16,6 @@ class Database:
         "serviceAccount": "path/to/serviceAccountCredentials.json"
     }
 
-    URI = os.environ.get('MONGODB_URI')
     DATABASE = pyrebase.initialize_app(config)
     AUTH = firebase.auth()
 
@@ -25,11 +24,11 @@ class Database:
         Database.DATABASE.child('users').child(username).set(data)
 
     @staticmethod
-    def find(username: str, query: Dict):
-        return Database.DATABASE.child('users').child(username).child(query).get().val()
+    def find(username: str):
+        return Database.DATABASE.child('users').child(username).get().val()
 
     @staticmethod
-    def find_one(username: str, query: Dict) -> Dict:   #TODO: this may not be necessary?
+    def find_one(username: str, query: Dict) -> Dict:
         return Database.DATABASE.child('users').child(username).child(query).get().val()
 
     @staticmethod
@@ -40,13 +39,8 @@ class Database:
     def remove(username: str, query: Dict):
         Database.DATABASE.child('users').child(username).child(query).remove()
 
-    #TODO: update if needed or delete
-    @staticmethod
-    def find_all_sorted_by(username: str, query: Dict, key: str, ascending: bool):
-        if ascending:
-            return Database.DATABASE.child('users').child(username).find(query).sort(key, pymongo.ASCENDING)
-        return Database.DATABASE.child('users').child(username).find(query).sort(key, pymongo.DESCENDING)
-
     @staticmethod
     def new_user(email: str, password: str):
         auth.create_user_with_email_and_password(email, password)
+        Database.DATABASE.child('users').set(email)
+        Database.DATABASE.child('users').child(email).set({'password': password})
