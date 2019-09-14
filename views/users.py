@@ -60,7 +60,7 @@ def change_password():
             flash('The passwords entered do not match.', 'danger')
         else:
             user.password = Utils.hash_password(new_password)
-            user.save_to_mongo()
+            user.save_to_firebase()
     return redirect(url_for('users.settings'))
 
 
@@ -75,18 +75,13 @@ def change_email():
             user = User.find_by_email(session['email'])
             user.email = new_email
             session['email'] = new_email
-            user.save_to_mongo()
+            user.save_to_firebase()
     return redirect(url_for('users.settings'))
 
-@user_blueprint.route('/classify_image', methods=['POST'])
+@user_blueprint.route('/classify_image', methods=['GET'])
 def classify_image():
-    if request.method == 'POST':
-        #TODO: get image from req; can either store it in DB on front end and then just send an img id
-        #      through payload, or can convert image to base64
-        #TODO: send image to azure
-
-        #TODO: depending on result, call update_slouch_data() and send_slouch_notif() (both in user class)
-        if 'SLOUCHING':
+    if request.method == 'GET':
+        if True:
             user = User.find_by_email(session['email'])
-            user.update_slouch_data(email)
+            user.update_slouch_data(session['email'])
             user.send_slouch_notif()

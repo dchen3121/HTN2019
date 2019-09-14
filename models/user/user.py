@@ -31,8 +31,7 @@ class User(Model):
     @classmethod
     def find_by_email(cls, email: str) -> "User":
         try:
-            return cls(email=Database.find(email).key(), password=Database.find(email).val()['password'],
-                       data=Database.find(email).val())
+            return cls(email=Database.find(email).key(), password=Database.find(email).val()['password'])
         except TypeError:
             # user not found by email
             raise errors.UserNotFoundError('A user with this email was not found.')
@@ -58,21 +57,20 @@ class User(Model):
             raise errors.IncorrectPasswordError('The password entered was incorrect.')
         return True
 
-    @classmethod
-    def update_slouch_data(email: str):
-        #update times slouched list
-        user = cls.find_by_email(email)
+    def update_slouch_data(self, email: str):
+        # update times slouched list
+        user = self.find_by_email(email)
         if not user:
-            #SET initial data value for user
-            data[6]['numSlouch'] = data[6]['numSlouch'] = data[6]['numSlouch'] + 1
+            # SET initial data value for user
+            self.data[6]['numSlouch'] = self.data[6]['numSlouch'] = self.data[6]['numSlouch'] + 1
             self.add_to_firebase()
         else:
             #UPDATE data value
-            data = users.val()
+            data = user.data
             if data[6]['numSlouch'] != Utils.get_date():
                 #add new day to list
                 for i in range(0, 5):
-                    date[i] = date[i + 1]
+                    self.date[i] = self.date[i + 1]
                 data[6] = {'date': Utils.get_date(), 'numSlouch': 1}
             else:
                 data[6]['numSlouch'] = data[6]['numSlouch'] + 1
@@ -86,7 +84,7 @@ class User(Model):
 
     def json(self) -> Dict:
         return {
-            '_id': self._id,
             'email': self.email,
             'password': self.password
+            'data': self.data
         }
