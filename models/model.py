@@ -27,16 +27,3 @@ class Model(metaclass=ABCMeta):
 
     def register_model(self, email: str, password: str):
         Database.new_user(email, password)
-
-    # @classmethod
-    # def get_by_email(cls: Type[T], email: str) -> T:
-    #     return cls(Database.find(email).key(), Database.find(email).val())
-
-    @classmethod
-    def all(cls: Type[T]) -> List[T]:
-        things_from_db = Database.find(cls.username, {})
-        return [cls(**thing) for thing in things_from_db]
-
-    @classmethod
-    def find_one_by(cls: Type[T], attribute: str, value: Union[str, Dict]) -> T:
-        return cls(**Database.find_one(cls.username.split, {attribute: value}))
