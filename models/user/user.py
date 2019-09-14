@@ -1,28 +1,31 @@
 from typing import Dict
 import uuid
-from dataclasses import dataclass, field
 
 from models.model import Model
 from common.utils import Utils
-import models.user.errors as errors
+from models.user import errors as errors
 
+import firebase_admin
 from firebase_admin import auth #TODO: may move this functionality elsewhere
 messaging_app = firebase_admin.initialize_app()
 
-@dataclass(eq=False)
+
 class User(Model):
 
-    collection: str = field(init=False, default='users')
-    email: str
-    password: str
-    data: Dict = {'timesSlouched': [
-                {'date' : Utils.get_date(), 'numSlouch' : 0},
-                {'date' : Utils.get_date(), 'numSlouch' : 0},
-                {'date' : Utils.get_date(), 'numSlouch' : 0},
-                {'date' : Utils.get_date(), 'numSlouch' : 0},
-                {'date' : Utils.get_date(), 'numSlouch' : 0},
-                {'date' : Utils.get_date(), 'numSlouch' : 0},
-                {'date' : Utils.get_date(), 'numSlouch' : 0}]}
+    def __init__(self, email: str, password: str, 
+                 data: Dict = {'timesSlouched': [
+                                  {'date': Utils.get_date(), 'numSlouch': 0},
+                                  {'date': Utils.get_date(), 'numSlouch': 0},
+                                  {'date': Utils.get_date(), 'numSlouch': 0},
+                                  {'date': Utils.get_date(), 'numSlouch': 0},
+                                  {'date': Utils.get_date(), 'numSlouch': 0},
+                                  {'date': Utils.get_date(), 'numSlouch': 0},
+                                  {'date': Utils.get_date(), 'numSlouch': 0}
+                              ]}):
+        self.collection = 'users'
+        self.email = email
+        self.password = password
+        self.data = data
 
     @classmethod
     def find_by_email(cls, email: str) -> "User":
@@ -55,25 +58,23 @@ class User(Model):
 
     @classmethod
     def update_slouch_data(email: str):
-    #update times slouched list
-    user = cls.find_by_email(email)
-    
-    if users.val() == None:
-        #SET initial data value for user
-        data[6]['numSlouch'] = data[6]['numSlouch'] = data[6]['numSlouch'] + 1
-        self.add_to_firebase()
-
-    else:
-        #UPDATE data value
-        data = users.val()
-        if data[6]['numSlouch'] != Utils.get_date():
-            #add new day to list
-            for i in range(0, 5):
-                data[i] = data[i+1]
-            data[6] = {'date' : Utils.get_date(), 'numSlouch' : 1}
+        #update times slouched list
+        user = cls.find_by_email(email)
+        if user == None:
+            #SET initial data value for user
+            data[6]['numSlouch'] = data[6]['numSlouch'] = data[6]['numSlouch'] + 1
+            self.add_to_firebase()
         else:
-            data[6]['numSlouch'] = data[6]['numSlouch'] + 1
-        self.save_to_firebase()
+            #UPDATE data value
+            data = users.val()
+            if data[6]['numSlouch'] != Utils.get_date():
+                #add new day to list
+                for i in range(0, 5):
+                    date[i] = date[i + 1]
+                data[6] = {'date': Utils.get_date(), 'numSlouch': 1}
+            else:
+                data[6]['numSlouch'] = data[6]['numSlouch'] + 1
+            self.save_to_firebase()
     
     @classmethod
     def send_slouch_notif():
