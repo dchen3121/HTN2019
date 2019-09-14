@@ -75,6 +75,9 @@ class User(Model):
             else:
                 data[6]['numSlouch'] = data[6]['numSlouch'] + 1
             self.save_to_firebase()
+
+    def get_slouch_data(self, email:str):
+        return Database.find_one(email, 'timesSlouched')
     
     @classmethod
     def send_slouch_notif():

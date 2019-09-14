@@ -78,10 +78,15 @@ def change_email():
             user.save_to_firebase()
     return redirect(url_for('users.settings'))
 
-@user_blueprint.route('/classify_image', methods=['GET'])
-def classify_image():
+@user_blueprint.route('/slouch_update', methods=['GET'])
+def slouch_update():
     if request.method == 'GET':
-        if True:
             user = User.find_by_email(session['email'])
             user.update_slouch_data(session['email'])
             user.send_slouch_notif()
+
+
+@user_blueprint.route('/week_slouch_data', methods=['GET'])
+def week_slouch_data():
+    if request.method == 'GET':
+        data = User.get_slouch_data(session['email'])
