@@ -24,6 +24,5 @@ class Model(metaclass=ABCMeta):
     def json(self) -> Dict:
         raise NotImplementedError
 
-
-    def register_model(self, email: str, password: str):
-        Database.new_user(email, password)
+    def register_model(self, user):
+        Database.new_user(user)

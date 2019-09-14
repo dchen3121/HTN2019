@@ -29,9 +29,9 @@ class User(Model):
         self.data = data
 
     @classmethod
-    def find_by_email(cls, email: str) -> "User":
+    def find_by_email(cls, email: str):
         try:
-            return cls(email=Database.find(email).key(), password=Database.find(email).val()['password'])
+            return Database.find(email)
         except TypeError:
             # user not found by email
             raise errors.UserNotFoundError('A user with this email was not found.')
@@ -47,13 +47,13 @@ class User(Model):
             raise errors.UserAlreadyExistsError('The email you used to register already exists.')
         except errors.UserNotFoundError:
             # success!
-            User(email, Utils.hash_password(password)).register_model(email, Utils.hash_password(password))
+            User(email, Utils.hash_password(password)).register_model(User(email, Utils.hash_password(password)))
         return True
 
     @classmethod
     def is_login_valid(cls, email: str, password: str) -> bool:
         user = cls.find_by_email(email)
-        if not Utils.check_hashed_password(password, user.data['password']): #XXX: not sure what object user will be
+        if not Utils.check_hashed_password(password, user.val()['password']): #XXX: not sure what object user will be
             raise errors.IncorrectPasswordError('The password entered was incorrect.')
         return True
 
@@ -70,7 +70,7 @@ class User(Model):
             if data[6]['numSlouch'] != Utils.get_date():
                 #add new day to list
                 for i in range(0, 5):
-                    self.date[i] = self.date[i + 1]
+                    self.data[i] = self.data[i + 1]
                 data[6] = {'date': Utils.get_date(), 'numSlouch': 1}
             else:
                 data[6]['numSlouch'] = data[6]['numSlouch'] + 1
@@ -87,7 +87,6 @@ class User(Model):
 
     def json(self) -> Dict:
         return {
-            'email': self.email,
-            'password': self.password
+            'password': self.password,
             'data': self.data
         }
