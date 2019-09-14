@@ -4,6 +4,7 @@ import uuid
 from models.model import Model
 from common.utils import Utils
 from models.user import errors as errors
+from common.database import Database
 
 import firebase_admin
 from firebase_admin import auth #TODO: may move this functionality elsewhere
@@ -30,7 +31,8 @@ class User(Model):
     @classmethod
     def find_by_email(cls, email: str) -> "User":
         try:
-            return cls.find(email)
+            return cls(email=Database.find(email).key(), password=Database.find(email).val()['password'],
+                       data=Database.find(email).val())
         except TypeError:
             # user not found by email
             raise errors.UserNotFoundError('A user with this email was not found.')
@@ -52,17 +54,18 @@ class User(Model):
     @classmethod
     def is_login_valid(cls, email: str, password: str) -> bool:
         user = cls.find_by_email(email)
-        if not Utils.check_hashed_password(password, user['password']): #XXX: not sure what object user will be
+        print('is login valid')
+        if not Utils.check_hashed_password(password, user.data['password']): #XXX: not sure what object user will be
             raise errors.IncorrectPasswordError('The password entered was incorrect.')
         return True
 
     @classmethod
-    def update_slouch_data(email: str):
+    def update_slouch_data(email: str):
         #update times slouched list
         user = cls.find_by_email(email)
-        if user == None:
+        if not user:
             #SET initial data value for user
-            data[6]['numSlouch'] = data[6]['numSlouch'] = data[6]['numSlouch'] + 1
+            data[6]['numSlouch'] = data[6]['numSlouch'] = data[6]['numSlouch'] + 1
             self.add_to_firebase()
         else:
             #UPDATE data value

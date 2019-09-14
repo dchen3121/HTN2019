@@ -7,11 +7,9 @@ T = TypeVar('T', bound='Model')
 
 class Model(metaclass=ABCMeta):
 
-    username: str
-    data: Dict
-
-    def __init__(self, *args, **kwargs):
-        pass
+    def __init__(self, username: str, data: Dict):
+        self.username = username
+        self.data = data
 
     def add_to_firebase(self):
         Database.insert(self.username, self.data)
@@ -26,13 +24,13 @@ class Model(metaclass=ABCMeta):
     def json(self) -> Dict:
         raise NotImplementedError
 
-    @classmethod
-    def register_model(email: str, password: str):
+
+    def register_model(self, email: str, password: str):
         Database.new_user(email, password)
 
-    @classmethod
-    def get_by_id(cls: Type[T], _id: str) -> T:
-        return cls.find_one_by("_id", _id)
+    # @classmethod
+    # def get_by_email(cls: Type[T], email: str) -> T:
+    #     return cls(Database.find(email).key(), Database.find(email).val())
 
     @classmethod
     def all(cls: Type[T]) -> List[T]:
@@ -41,4 +39,4 @@ class Model(metaclass=ABCMeta):
 
     @classmethod
     def find_one_by(cls: Type[T], attribute: str, value: Union[str, Dict]) -> T:
-        return cls(**Database.find_one(cls.username, {attribute: value}))
+        return cls(**Database.find_one(cls.username.split, {attribute: value}))

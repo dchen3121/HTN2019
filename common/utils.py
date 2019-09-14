@@ -15,7 +15,7 @@ class Utils:
 
     @staticmethod
     def hash_password(password: str) -> str:
-        return pbkdf2_sha512.encrypt(password)
+        return str(pbkdf2_sha512.encrypt(password))
 
     @staticmethod
     def check_hashed_password(password: str, hashed_password: str) -> bool:

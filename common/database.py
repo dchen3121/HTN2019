@@ -1,6 +1,9 @@
 from typing import Dict
 import pyrebase
 import os
+from urllib.parse import quote
+import firebase_admin
+from firebase_admin import credentials
 
 
 class Database:
@@ -9,38 +12,39 @@ class Database:
     # DATABASE = pymongo.MongoClient(URI).get_database()
 
     config = {
-        "apiKey": "apiKey",
+        "apiKey": "AIzaSyBSO7IT5_sfrmwWq-qUH8iBskqq5N7A_08",
         "authDomain": "htn2019-d987b.firebaseapp.com",
         "databaseURL": "https://htn2019-d987b.firebaseio.com",
         "storageBucket": "htn2019-d987b.appspot.com",
-        # "serviceAccount": "path/to/serviceAccountCredentials.json"
+        "serviceAccount": "do_not_commit/htn2019-d987b-firebase-adminsdk-pz1d6-52193b1ef8.json"
     }
 
-    DATABASE = pyrebase.initialize_app(config)
-    AUTH = DATABASE.auth()
+    firebase = pyrebase.initialize_app(config)
+    DATABASE = firebase.database()
+    AUTH = firebase.auth()
 
     @staticmethod
     def insert(username: str, data: Dict):
-        Database.DATABASE.child('users').child(username).set(data)
+        Database.DATABASE.child('users').child(username.split('@')[0]).set(data)
 
     @staticmethod
     def find(username: str):
-        return Database.DATABASE.child('users').child(username).get().val()
+        return Database.DATABASE.child('users').child(username.split('@')[0]).get()
 
     @staticmethod
     def find_one(username: str, query: Dict) -> Dict:
-        return Database.DATABASE.child('users').child(username).child(query).get().val()
+        return Database.DATABASE.child('users').child(username.split('@')[0]).child(query).get().val()
 
     @staticmethod
     def update(username: str, data: Dict):
-        Database.DATABASE.child('users').child(username).update(data)
+        Database.DATABASE.child('users').child(username.split('@')[0]).update(data)
 
     @staticmethod
     def remove(username: str, query: Dict):
-        Database.DATABASE.child('users').child(username).child(query).remove()
+        Database.DATABASE.child('users').child(username.split('@')[0]).child(query).remove()
 
     @staticmethod
     def new_user(email: str, password: str):
-        auth.create_user_with_email_and_password(email, password)
-        Database.DATABASE.child('users').set(email)
-        Database.DATABASE.child('users').child(email).set({'password': password})
+        Database.AUTH.create_user_with_email_and_password(email, password)
+        Database.DATABASE.child('users').set(email.split('@')[0])
+        Database.DATABASE.child('users').child(email.split('@')[0]).set({'password': password})
