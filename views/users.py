@@ -66,7 +66,7 @@ def user_slouch():
     #TODO: send slouch notif command to FCM
 
     #update times slouched list
-    data = firebaseDB.child('users').child(user['email']).get() #TODO: uh does the email field even exist in user?
+    data = firebaseDB.child('users').child(user['email']).get() #TODO: does the email field even exist in user?
     if users.val() == None:
         #SET data value
         data = {'timesSlouched': [
