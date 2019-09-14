@@ -7,21 +7,28 @@ T = TypeVar('T', bound='Model')
 
 class Model(metaclass=ABCMeta):
 
-    collection: str
-    _id: str
+    username: str
+    data: Dict
 
     def __init__(self, *args, **kwargs):
         pass
 
-    def save_to_mongo(self):
-        Database.update(self.collection, {"_id": self._id}, self.json())
+    def add_to_firebase(self):
+        Database.insert(self.username, self.data)
 
-    def remove_from_mongo(self):
-        Database.remove(self.collection, {"_id": self._id})
+    def save_to_firebase(self):
+        Database.update(self.username, self.data)
+
+    def remove_from_firebase(self):
+        Database.remove(self.username, self.data)
 
     @abstractmethod
     def json(self) -> Dict:
         raise NotImplementedError
+
+    @classmethod
+    def register_model(email: str, password: str):
+        Database.new_user(email, password)
 
     @classmethod
     def get_by_id(cls: Type[T], _id: str) -> T:
@@ -29,25 +36,9 @@ class Model(metaclass=ABCMeta):
 
     @classmethod
     def all(cls: Type[T]) -> List[T]:
-        things_from_db = Database.find(cls.collection, {})
+        things_from_db = Database.find(cls.username, {})
         return [cls(**thing) for thing in things_from_db]
 
     @classmethod
     def find_one_by(cls: Type[T], attribute: str, value: Union[str, Dict]) -> T:
-        return cls(**Database.find_one(cls.collection, {attribute: value}))
-
-    @classmethod
-    def find_many_by(cls, attribute: str, value: str) -> List[T]:
-        return [cls(**elem) for elem in Database.find(cls.collection, {attribute: value})]
-
-    @classmethod
-    def find_many_by_dict(cls, query: Dict) -> List[T]:
-        return [cls(**elem) for elem in Database.find(cls.collection, query)]
-
-    @classmethod
-    def find_sorted_ascending(cls, query: Dict, key: str):
-        return [cls(**elem) for elem in Database.find_all_sorted_by(cls.collection, query, key, True)]
-
-    @classmethod
-    def find_sorted_descending(cls, query: Dict, key: str):
-        return [cls(**elem) for elem in Database.find_all_sorted_by(cls.collection, query, key, False)]
+        return cls(**Database.find_one(cls.username, {attribute: value}))

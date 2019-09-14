@@ -38,3 +38,55 @@ def login_user():
 def logout_user():
     session['email'] = None
     return redirect('/')
+
+
+@user_blueprint.route('/settings')
+@requires_login
+def settings():
+    return render_template('users/settings.html')
+
+
+@user_blueprint.route('/change_password', methods=['POST'])
+def change_password():
+    if request.method == 'POST':
+        current_password = request.form['current']
+        user = User.find_by_email(session['email'])
+        current_password_confirm = user.password
+        new_password = request.form['new-password']
+        new_password_confirm = request.form['new-password-confirm']
+        if not Utils.check_hashed_password(current_password, current_password_confirm):
+            flash('Incorrect password.', 'danger')
+        elif new_password != new_password_confirm:
+            flash('The passwords entered do not match.', 'danger')
+        else:
+            user.password = Utils.hash_password(new_password)
+            user.save_to_mongo()
+    return redirect(url_for('users.settings'))
+
+
+@user_blueprint.route('/change_email', methods=['POST'])
+def change_email():
+    if request.method == 'POST':
+        new_email = request.form['new-email']
+        new_email_confirm = request.form['new-email-confirm']
+        if new_email != new_email_confirm:
+            flash('The emails entered do not match.', 'danger')
+        else:
+            user = User.find_by_email(session['email'])
+            user.email = new_email
+            session['email'] = new_email
+            user.save_to_mongo()
+    return redirect(url_for('users.settings'))
+
+@user_blueprint.route('/classify_image', methods=['POST'])
+def classify_image():
+    if request.method == 'POST':
+        #TODO: get image from req; can either store it in DB on front end and then just send an img id
+        #      through payload, or can convert image to base64
+        #TODO: send image to azure
+
+        #TODO: depending on result, call update_slouch_data() and send_slouch_notif() (both in user class)
+        if 'SLOUCHING':
+            user = User.find_by_email(session['email'])
+            user.update_slouch_data(email)
+            user.send_slouch_notif()
