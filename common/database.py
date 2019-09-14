@@ -10,15 +10,15 @@ class Database:
 
     config = {
         "apiKey": "apiKey",
-        "authDomain": "projectId.firebaseapp.com",
-        "databaseURL": "https://databaseName.firebaseio.com",
-        "storageBucket": "projectId.appspot.com",
-        "serviceAccount": "path/to/serviceAccountCredentials.json"
+        "authDomain": "htn2019-d987b.firebaseapp.com",
+        "databaseURL": "https://htn2019-d987b.firebaseio.com",
+        "storageBucket": "htn2019-d987b.appspot.com",
+        # "serviceAccount": "path/to/serviceAccountCredentials.json"
     }
 
     URI = os.environ.get('MONGODB_URI')
     DATABASE = pyrebase.initialize_app(config)
-    AUTH = firebase.auth()
+    AUTH = DATABASE.auth()
 
     @staticmethod
     def insert(username: str, data: Dict):
