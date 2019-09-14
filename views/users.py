@@ -82,7 +82,7 @@ def change_email():
 def classify_image():
     if request.method == 'POST':
         #TODO: get image from req; can either store it in DB on front end and then just send an img id
-        #      through payload, or can convert image to base64
+        #      through payload, or can convert image to a base64 string and send that as payload
         #TODO: send image to azure
 
         #TODO: depending on result, call update_slouch_data() and send_slouch_notif() (both in user class)

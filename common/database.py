@@ -1,5 +1,5 @@
 from typing import Dict
-import pymongo
+import pyrebase
 import os
 
 
@@ -8,31 +8,45 @@ class Database:
     # URI = "mongodb://127.0.0.1:27017/pricing"
     # DATABASE = pymongo.MongoClient(URI).get_database()
 
+    config = {
+        "apiKey": "apiKey",
+        "authDomain": "projectId.firebaseapp.com",
+        "databaseURL": "https://databaseName.firebaseio.com",
+        "storageBucket": "projectId.appspot.com",
+        "serviceAccount": "path/to/serviceAccountCredentials.json"
+    }
+
     URI = os.environ.get('MONGODB_URI')
-    DATABASE = pymongo.MongoClient(URI).get_default_database()
+    DATABASE = pyrebase.initialize_app(config)
+    AUTH = firebase.auth()
 
     @staticmethod
-    def insert(collection: str, data: Dict):
-        Database.DATABASE[collection].insert(data)
+    def insert(username: str, data: Dict):
+        Database.DATABASE.child('users').child(username).set(data)
 
     @staticmethod
-    def find(collection: str, query: Dict) -> pymongo.cursor:  # cursor kind of behaves like a list
-        return Database.DATABASE[collection].find(query)
+    def find(username: str, query: Dict):
+        return Database.DATABASE.child('users').child(username).child(query).get().val()
 
     @staticmethod
-    def find_one(collection: str, query: Dict) -> Dict:
-        return Database.DATABASE[collection].find_one(query)
+    def find_one(username: str, query: Dict) -> Dict:   #TODO: this may not be necessary?
+        return Database.DATABASE.child('users').child(username).child(query).get().val()
 
     @staticmethod
-    def update(collection: str, query: Dict, data: Dict):
-        Database.DATABASE[collection].update(query, data, upsert=True)
+    def update(username: str, data: Dict):
+        Database.DATABASE.child('users').child(username).update(data)
 
     @staticmethod
-    def remove(collection: str, query: Dict):
-        Database.DATABASE[collection].remove(query)
+    def remove(username: str, query: Dict):
+        Database.DATABASE.child('users').child(username).child(query).remove()
 
+    #TODO: update if needed or delete
     @staticmethod
-    def find_all_sorted_by(collection: str, query: Dict, key: str, ascending: bool):
+    def find_all_sorted_by(username: str, query: Dict, key: str, ascending: bool):
         if ascending:
-            return Database.DATABASE[collection].find(query).sort(key, pymongo.ASCENDING)
-        return Database.DATABASE[collection].find(query).sort(key, pymongo.DESCENDING)
+            return Database.DATABASE.child('users').child(username).find(query).sort(key, pymongo.ASCENDING)
+        return Database.DATABASE.child('users').child(username).find(query).sort(key, pymongo.DESCENDING)
+
+    @staticmethod
+    def new_user(email: str, password: str):
+        auth.create_user_with_email_and_password(email, password)
