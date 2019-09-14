@@ -32,8 +32,8 @@ class Database:
         return Database.DATABASE.child('users').child(username.split('@')[0]).get()
 
     @staticmethod
-    def find_one(username: str, query: Dict) -> Dict:
-        return Database.DATABASE.child('users').child(username.split('@')[0]).child(query).get().val()
+    def find_one(username: str, field: str) -> Dict:
+        return Database.DATABASE.child('users').child(username.split('@')[0]).get().val().get(field)
 
     @staticmethod
     def update(username: str, data: Dict):

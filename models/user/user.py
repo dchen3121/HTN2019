@@ -76,7 +76,8 @@ class User(Model):
                 data[6]['numSlouch'] = data[6]['numSlouch'] + 1
             self.save_to_firebase()
 
-    def get_slouch_data(self, email:str):
+    @staticmethod
+    def get_slouch_data(email: str) -> list:
         return Database.find_one(email, 'timesSlouched')
     
     @classmethod

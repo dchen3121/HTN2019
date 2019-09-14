@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, session, request
-from models.user import requires_login
+from models.user import User, errors, requires_login
 from common.utils import Utils
 
 data_blueprint = Blueprint('data', __name__)
@@ -9,6 +9,23 @@ data_blueprint = Blueprint('data', __name__)
 @requires_login
 def index():
     return render_template('data/index.html')
+
+
+@data_blueprint.route('/update', methods=['GET'])
+@requires_login
+def slouch_update():
+    if request.method == 'GET':
+        user = User.find_by_email(session['email'])
+        user.update_slouch_data(session['email'])
+        user.send_slouch_notif()
+
+
+@data_blueprint.route('/week', methods=['GET'])
+@requires_login
+def week_slouch_data():
+    if request.method == 'GET':
+        data = User.get_slouch_data(session['email'])
+        # TODO: Do something with the data, and return something gooooood
 
 
 # @data_blueprint.route('/history')

@@ -13,7 +13,7 @@ app.config.update(
 
 
 app.register_blueprint(user_blueprint, url_prefix="/users")
-app.register_blueprint(data_blueprint, url_prefix="/users")
+app.register_blueprint(data_blueprint, url_prefix="/data")
 
 
 @app.route('/')
