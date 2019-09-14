@@ -54,7 +54,6 @@ class User(Model):
     @classmethod
     def is_login_valid(cls, email: str, password: str) -> bool:
         user = cls.find_by_email(email)
-        print('is login valid')
         if not Utils.check_hashed_password(password, user.data['password']): #XXX: not sure what object user will be
             raise errors.IncorrectPasswordError('The password entered was incorrect.')
         return True
