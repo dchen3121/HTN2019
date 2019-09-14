@@ -48,11 +48,6 @@ class User(Model):
 
     @classmethod
     def update_slouch_data():
-    #TODO: send slouch notif command to FCM
-    # using the firebase admin sdk for python
-    # specs: https://firebase.google.com/docs/reference/admin/python/firebase_admin.messaging#webpushnotification
-    firebase_admin.messaging.WebpushNotification("Look out, you're slouching!", None, "ICON_URL")
-
     #update times slouched list
     #TODO: does mongo have same specifics (or can we just update and it'll create regardless?)
     #TODO: remove the users.val(); still want to find+update data
@@ -78,6 +73,13 @@ class User(Model):
         else:
             data[6]['numSlouch'] = data[6]['numSlouch'] + 1
         #TODO: update data
+    
+    @classmethod
+    def send_slouch_notif():
+        #TODO: send slouch notif command to FCM
+        # using the firebase admin sdk for python
+        # specs: https://firebase.google.com/docs/reference/admin/python/firebase_admin.messaging#webpushnotification
+        firebase_admin.messaging.WebpushNotification("Look out, you're slouching!", None, "ICON_URL")
 
     def json(self) -> Dict:
         return {

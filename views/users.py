@@ -77,3 +77,16 @@ def change_email():
             session['email'] = new_email
             user.save_to_mongo()
     return redirect(url_for('users.settings'))
+
+@user_blueprint.route('/classify_image', methods=['POST'])
+def classify_image():
+    if request.method == 'POST':
+        #TODO: get image from req; can either store it in DB on front end and then just send an img id
+        #      through payload, or can convert image to base64
+        #TODO: send image to azure
+
+        #TODO: depending on result, call update_slouch_data() and send_slouch_notif() (both in user class)
+        if 'SLOUCHING':
+            user = User.find_by_email(session['email'])
+            user.update_slouch_data()
+            user.send_slouch_notif()
