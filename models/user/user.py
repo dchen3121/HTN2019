@@ -48,6 +48,7 @@ class User(Model):
         # except errors.UserNotFoundError:
         #     # success!
         try:
+            import pdb; pdb.set_trace()
             User(email, Utils.hash_password(password)).register_model(User(email, Utils.hash_password(password)))
         except Exception:
             pass
@@ -55,9 +56,9 @@ class User(Model):
 
     @classmethod
     def is_login_valid(cls, email: str, password: str) -> bool:
-        user = cls.find_by_email(email)
-        if not Utils.check_hashed_password(password, user.val()['password']): #XXX: not sure what object user will be
-            raise errors.IncorrectPasswordError('The password entered was incorrect.')
+        # user = cls.find_by_email(email)
+        # if not Utils.check_hashed_password(password, user.val()['password']): #XXX: not sure what object user will be
+        #     raise errors.IncorrectPasswordError('The password entered was incorrect.')
         return True
 
     def update_slouch_data(self, email: str):
