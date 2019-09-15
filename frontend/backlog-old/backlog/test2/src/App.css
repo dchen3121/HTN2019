@@ -1,34 +1,5 @@
-body {
-  background: #373738;
-}
-
-h2,
-p {
-  color: #ffffff;
-}
 .App {
   text-align: center;
-}
-
-#content {
-  display: flex;
-  justify-content: space-around;
-}
-#Graph {
-  border: 1px solid black;
-  width: 33%;
-  margin-top: 15%;
-  margin-left: 3%;
-}
-
-#Webcam {
-  margin-bottom: 2%;
-}
-
-#right {
-  border: 1px solid black;
-  margin-top: 15%;
-  margin-right: 3%;
 }
 
 .App-logo {

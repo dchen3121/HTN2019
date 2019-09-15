@@ -3,11 +3,11 @@ import React from "react";
 class Webcam extends React.Component {
   establishWebcam() {
     var video = document.querySelector("#videoElement");
-    // var canvas = document.createElement("canvas");
+    var canvas = document.createElement("canvas");
 
     if (navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices
-        .getUserMedia({ video: { width: 750, height: 350 } })
+        .getUserMedia({ video: { width: 426, height: 240 } })
         .then(function(stream) {
           video.srcObject = stream;
         })
