@@ -45,6 +45,6 @@ class Database:
 
     @staticmethod
     def new_user(user):
-        Database.AUTH.create_user_with_email_and_password(email, password)
+        Database.AUTH.create_user_with_email_and_password(user.email, user.password)
         Database.DATABASE.child('users').child(user.email.split('@')[0])
-        Database.DATABASE.child('users').child(email.split('@')[0]).set(user.json())
+        Database.DATABASE.child('users').child(user.email.split('@')[0]).set(user.json())

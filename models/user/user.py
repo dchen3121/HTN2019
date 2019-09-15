@@ -41,14 +41,16 @@ class User(Model):
         if not Utils.email_is_valid(email):
             # email is invalid
             raise errors.InvalidEmailError('The email does not have the right format.')
+        # try:
+        #     cls.find_by_email(email)  # this just checks it
+        #     # email already exists
+        #     raise errors.UserAlreadyExistsError('The email you used to register already exists.')
+        # except errors.UserNotFoundError:
+        #     # success!
         try:
-            cls.find_by_email(email)  # this just checks it
-            # email already exists
-            raise errors.UserAlreadyExistsError('The email you used to register already exists.')
-        except errors.UserNotFoundError:
-            # success!
-            import pdb; pdb.set_trace()
             User(email, Utils.hash_password(password)).register_model(User(email, Utils.hash_password(password)))
+        except Exception:
+            pass
         return True
 
     @classmethod
