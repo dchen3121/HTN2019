@@ -19,6 +19,7 @@ app.register_blueprint(data_blueprint, url_prefix="/data")
 @app.route('/')
 def home():
     return render_template("home.html")
+    #TODO: render different page depending on session id field value
 
 
 if __name__ == '__main__':
