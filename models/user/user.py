@@ -105,7 +105,6 @@ class User(Model):
         # registration token.
         response = messaging.send(message)
         # Response is a message ID string.
-        messaging_app.
 
     def json(self) -> Dict:
         return {
