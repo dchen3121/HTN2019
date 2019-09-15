@@ -47,8 +47,6 @@ function getDataset() {
   }
   return final;
 }
-
-var dataset = getDataset();
 class Graph extends React.Component {
   constructor() {
     super();
@@ -81,7 +79,7 @@ class Graph extends React.Component {
           barRatio={0.5}
           horizontal={true}
           style={{ data: { fill: "#69bed6" } }}
-          data={dataset}
+          data={data}
           x="slouchCount"
           y="day"
         />
