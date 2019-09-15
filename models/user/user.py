@@ -7,7 +7,7 @@ from models.user import errors as errors
 from common.database import Database
 
 import firebase_admin
-from firebase_admin import auth #TODO: may move this functionality elsewhere
+from firebase_admin import auth, messaging 
 messaging_app = firebase_admin.initialize_app()
 
 
@@ -59,32 +59,54 @@ class User(Model):
 
     def update_slouch_data(self, email: str):
         # update times slouched list
-        user = self.find_by_email(email)
-        if not user:
+        if not self.data:
             # SET initial data value for user
-            self.data[6]['numSlouch'] = self.data[6]['numSlouch'] = self.data[6]['numSlouch'] + 1
+            self.data = {'timesSlouched': [
+                            {'date': Utils.get_date(), 'numSlouch': 0},
+                            {'date': Utils.get_date(), 'numSlouch': 0},
+                            {'date': Utils.get_date(), 'numSlouch': 0},
+                            {'date': Utils.get_date(), 'numSlouch': 0},
+                            {'date': Utils.get_date(), 'numSlouch': 0},
+                            {'date': Utils.get_date(), 'numSlouch': 0},
+                            {'date': Utils.get_date(), 'numSlouch': 0}
+                        ]}
+            self.data['timesSlouched'][6]['numSlouch'] += 1
             self.add_to_firebase()
         else:
             #UPDATE data value
-            data = user.data
-            if data[6]['numSlouch'] != Utils.get_date():
+            import pdb; pdb.set_trace()
+            if self.data['timesSlouched'][6]['date'] != Utils.get_date():
                 #add new day to list
                 for i in range(0, 5):
                     self.data[i] = self.data[i + 1]
-                data[6] = {'date': Utils.get_date(), 'numSlouch': 1}
+                self.data['timesSlouched'][6] = {'date': Utils.get_date(), 'numSlouch': 1}
             else:
-                data[6]['numSlouch'] = data[6]['numSlouch'] + 1
+                self.data['timesSlouched'][6]['numSlouch'] = self.data['timesSlouched'][6]['numSlouch'] + 1
             self.save_to_firebase()
 
     @staticmethod
     def get_slouch_data(email: str) -> list:
         return Database.find_one(email, 'timesSlouched')
     
-    @classmethod
-    def send_slouch_notif():
+    def send_slouch_notif(self):
         # using the firebase admin sdk for python
         # specs: https://firebase.google.com/docs/reference/admin/python/firebase_admin.messaging#webpushnotification
-        messaging_app.messaging.WebpushNotification("Look out, you're slouching!", None, "ICON_URL")
+        # This registration token comes from the client FCM SDKs.
+        registration_token = 'YOUR_REGISTRATION_TOKEN'
+
+        # See documentation on defining a message payload.
+        message = messaging.Message(
+            webpush=messaging.WebpushNotification(
+                title="Look out, you're slouching!", 
+                icon="ICON_URL"),
+            token=registration_token
+        )
+
+        # Send a message to the device corresponding to the provided
+        # registration token.
+        response = messaging.send(message)
+        # Response is a message ID string.
+        messaging_app.
 
     def json(self) -> Dict:
         return {

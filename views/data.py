@@ -10,16 +10,13 @@ data_blueprint = Blueprint('data', __name__)
 def index():
     return render_template('../client/build/index.html')
 
-@data_blueprint.route("/<path:path>")
-def send_files(path):
-    return send_from_directory("client/build", path)
-
 
 @data_blueprint.route('/update', methods=['GET'])
 @requires_login
 def slouch_update():
     if request.method == 'GET':
-        user = User.find_by_email(session['email'])
+        user_data = User.find_by_email(session['email']).val()
+        user = User(session['email'], 1234, {'timesSlouched' : user_data.get('timesSlouched')})
         user.update_slouch_data(session['email'])
         user.send_slouch_notif()
 

@@ -7,18 +7,18 @@ T = TypeVar('T', bound='Model')
 
 class Model(metaclass=ABCMeta):
 
-    def __init__(self, username: str, data: Dict):
-        self.username = username
+    def __init__(self, email: str, data: Dict):
+        self.email = email
         self.data = data
 
     def add_to_firebase(self):
-        Database.insert(self.username, self.data)
+        Database.insert(self.email, self.data)
 
     def save_to_firebase(self):
-        Database.update(self.username, self.data)
+        Database.update(self.email, self.data)
 
     def remove_from_firebase(self):
-        Database.remove(self.username, self.data)
+        Database.remove(self.email, self.data)
 
     @abstractmethod
     def json(self) -> Dict:
