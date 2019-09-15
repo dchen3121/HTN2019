@@ -19,6 +19,8 @@ class App extends React.Component {
       this.setState({
         isSlouch: true
       })
+      let oReq = new XMLHttpRequest();
+      oReq.open("POST", "localhost:4999/data/update");
     } else {
       this.setState({
         isSlouch: false
