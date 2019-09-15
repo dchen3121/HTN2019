@@ -30,6 +30,13 @@ function last7Days() {
   return result;
 }
 
+function getDataset() {
+  let oReq = new XMLHttpRequest();
+  oReq.open("GET", "localhost:4999/data/week");
+  var response = oReq.response.timesSlouched;
+  return response;
+}
+
 class Graph extends React.Component {
   constructor() {
     super();
@@ -59,8 +66,8 @@ class Graph extends React.Component {
         <VictoryBar
           style={{ data: { fill: "#69bed6" } }}
           data={data}
-          x="quarter"
-          y="earnings"
+          x="slouchCount"
+          y="day"
         />
       </VictoryChart>
     );
