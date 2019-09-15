@@ -26,7 +26,7 @@ def slouch_update():
 def week_slouch_data():
     if request.method == 'GET':
         data = User.get_slouch_data(session['email'])
-        return {'timesSlouched' : data.get('timesSlouched')}
+        return str({'timesSlouched' : data})
 
 
 # @data_blueprint.route('/history')
