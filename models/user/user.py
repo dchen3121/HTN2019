@@ -47,6 +47,7 @@ class User(Model):
             raise errors.UserAlreadyExistsError('The email you used to register already exists.')
         except errors.UserNotFoundError:
             # success!
+            import pdb; pdb.set_trace()
             User(email, Utils.hash_password(password)).register_model(User(email, Utils.hash_password(password)))
         return True
 
