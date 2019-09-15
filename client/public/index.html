@@ -42,7 +42,11 @@
   <script src="/__/firebase/6.6.1/firebase.js"></script>
    <!-- Initialize Firebase -->
    <script src="/__/firebase/init.js"></script>
-   <script>// Get Instance ID token. Initially this makes a network call, once retrieved
+   <script>
+    // Retrieve Firebase Messaging object.
+    const messaging = firebase.messaging();
+    messaging.usePublicVapidKey('KEY HERE');
+    // Get Instance ID token. Initially this makes a network call, once retrieved
     // subsequent calls to getToken will return from cache.
     messaging.getToken().then((currentToken) => {
       if (currentToken) {
