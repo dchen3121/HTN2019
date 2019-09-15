@@ -1,5 +1,6 @@
 body {
   background: #252525;
+  margin-top: 6%;
 }
 
 h2,
@@ -11,23 +12,14 @@ p {
   text-align: left;
 }
 
-#content {
-  display: flex;
-  justify-content: space-around;
-}
-#Graph {
-  width: 33%;
-  margin-top: 15%;
-  margin-left: -5%;
-}
-
 #Webcam {
-  margin-bottom: 2%;
+  margin: auto;
+  width: 70%;
 }
 
-#right {
-  margin-top: 10%;
-  margin-right: 3%;
+#Graph {
+  margin: auto;
+  width: 70%;
 }
 
 .App-logo {
