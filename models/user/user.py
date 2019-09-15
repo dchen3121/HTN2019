@@ -15,14 +15,14 @@ class User(Model):
 
     def __init__(self, email: str, password: str, 
                  data: Dict = {'timesSlouched': [
-                                  {'date': Utils.get_date(), 'numSlouch': 0},
-                                  {'date': Utils.get_date(), 'numSlouch': 0},
-                                  {'date': Utils.get_date(), 'numSlouch': 0},
-                                  {'date': Utils.get_date(), 'numSlouch': 0},
-                                  {'date': Utils.get_date(), 'numSlouch': 0},
-                                  {'date': Utils.get_date(), 'numSlouch': 0},
-                                  {'date': Utils.get_date(), 'numSlouch': 0}
-                              ]}):
+                                {'date': "2019-09-09", 'numSlouch': 7},
+                                {'date': "2019-09-10", 'numSlouch': 13},
+                                {'date': "2019-09-11", 'numSlouch': 15},
+                                {'date': "2019-09-12", 'numSlouch': 10},
+                                {'date': "2019-09-13", 'numSlouch': 7},
+                                {'date': "2019-09-14", 'numSlouch': 11},
+                                {'date': "2019-09-15", 'numSlouch': 0}
+                            ]}):
         self.collection = 'users'
         self.email = email
         self.password = password
@@ -48,9 +48,8 @@ class User(Model):
         # except errors.UserNotFoundError:
         #     # success!
         try:
-            import pdb; pdb.set_trace()
             User(email, Utils.hash_password(password)).register_model(User(email, Utils.hash_password(password)))
-        except Exception:
+        except Exception as e:
             pass
         return True
 
@@ -66,27 +65,27 @@ class User(Model):
         if not self.data:
             # SET initial data value for user
             self.data = {'timesSlouched': [
-                            {'date': Utils.get_date(), 'numSlouch': 0},
-                            {'date': Utils.get_date(), 'numSlouch': 0},
-                            {'date': Utils.get_date(), 'numSlouch': 0},
-                            {'date': Utils.get_date(), 'numSlouch': 0},
-                            {'date': Utils.get_date(), 'numSlouch': 0},
-                            {'date': Utils.get_date(), 'numSlouch': 0},
-                            {'date': Utils.get_date(), 'numSlouch': 0}
+                            {'date': "2019-09-09", 'numSlouch': 7},
+                            {'date': "2019-09-10", 'numSlouch': 13},
+                            {'date': "2019-09-11", 'numSlouch': 15},
+                            {'date': "2019-09-12", 'numSlouch': 10},
+                            {'date': "2019-09-13", 'numSlouch': 7},
+                            {'date': "2019-09-14", 'numSlouch': 11},
+                            {'date': "2019-09-15", 'numSlouch': 0}
                         ]}
             self.data['timesSlouched'][6]['numSlouch'] += 1
-            self.add_to_firebase()
+            # self.add_to_firebase()
         else:
             #UPDATE data value
-            import pdb; pdb.set_trace()
             if self.data['timesSlouched'][6]['date'] != Utils.get_date():
                 #add new day to list
                 for i in range(0, 5):
                     self.data[i] = self.data[i + 1]
                 self.data['timesSlouched'][6] = {'date': Utils.get_date(), 'numSlouch': 1}
             else:
-                self.data['timesSlouched'][6]['numSlouch'] = self.data['timesSlouched'][6]['numSlouch'] + 1
-            self.save_to_firebase()
+                self.data['timesSlouched'][6]['numSlouch'] += 1
+            # self.add_to_firebase()
+            # self.save_to_firebase()
 
     @staticmethod
     def get_slouch_data(email: str) -> list:

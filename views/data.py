@@ -4,6 +4,8 @@ from common.utils import Utils
 
 data_blueprint = Blueprint('data', __name__)
 
+user_data = dict(User.find_by_email("aeiglnukj@hahahah.com").val())
+user = User("aeiglnukj@hahahah.com", 1234, {'timesSlouched' : user_data['data'].get('timesSlouched')})
 
 @data_blueprint.route('/')
 @requires_login
@@ -15,18 +17,16 @@ def index():
 @requires_login
 def slouch_update():
     if request.method == 'GET':
-        user_data = User.find_by_email(session['email']).val()
-        user = User(session['email'], 1234, {'timesSlouched' : user_data.get('timesSlouched')})
-        user.update_slouch_data(session['email'])
-        user.send_slouch_notif()
+        user.update_slouch_data("aeiglnukj@hahahah.com")
+        # user.send_slouch_notif()
+        return redirect('/')
 
 
 @data_blueprint.route('/week', methods=['GET'])
 @requires_login
 def week_slouch_data():
     if request.method == 'GET':
-        data = User.get_slouch_data(session['email'])
-        return str({'timesSlouched' : data})
+        return str({'timesSlouched' : user.data})
 
 
 # @data_blueprint.route('/history')
