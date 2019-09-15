@@ -2,3 +2,5 @@ Flask
 requests
 passlib
 firebase-admin
+flask-socketio
+eventlet
