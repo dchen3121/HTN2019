@@ -9,14 +9,19 @@ import {
 import XYTheme from "./theme.js";
 
 // TO DO: FIX THIS DATA AS WELL AS JSON KEY VALUE PAIR NAMES
-const data = [
-  { quarter: 1, earnings: 1 },
-  { quarter: 2, earnings: 2 },
-  { quarter: 3, earnings: 3 },
-  { quarter: 4, earnings: 4 },
-  { quarter: 5, earnings: 5 },
-  { quarter: 6, earnings: 6 },
-  { quarter: 7, earnings: 7 }
+const sampleData = [
+  { x: 2, y: 32 },
+  { x: 4, y: 24 },
+  { x: 6, y: 16 },
+  { x: 8, y: 29 },
+  { x: 10, y: 40 },
+  { x: 12, y: 36 },
+  { x: 14, y: 47 },
+  { x: 16, y: 47 },
+  { x: 18, y: 53 },
+  { x: 20, y: 43 },
+  { x: 22, y: 62 },
+  { x: 24, y: 68 }
 ];
 
 function generateData() {
@@ -50,38 +55,36 @@ function getDataset() {
 class Graph extends React.Component {
   constructor() {
     super();
-    this.state = {
-      dates: last7Days()
-    };
   }
 
   render() {
     return (
       <VictoryChart
-        id="graph"
         // adding the material theme provided with Victory
-        theme={XYTheme}
+        theme={VictoryTheme.material}
         domainPadding={20}
       >
-        <VictoryLabel
-          text="Slouches in September"
-          x={175}
-          y={30}
-          textAnchor="middle"
-        />
-        {/*TO DO: FIX DATES to dynamically adjust */}
         <VictoryAxis
-          axisLabelComponent={["S", "M", "T", "W", "TH", "F", "S"]}
+          tickValues={[1, 2, 3, 4, 5, 6, 7, 8]}
+          tickFormat={["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00"]}
         />
-        {/*TO DO: CHANGE AXES */}
-        <VictoryAxis dependentAxis tickFormat={x => `${x}`} />
+        <VictoryAxis
+          dependentAxis
+          tickFormat={(x) => (`${x}`)}
+        />
         <VictoryBar
-          barRatio={0.5}
-          horizontal={true}
-          style={{ data: { fill: "#69bed6" } }}
-          data={data}
-          x="slouchCount"
-          y="day"
+          data={[
+            {quarter: 1, earnings: 24},
+            {quarter: 2, earnings: 29},
+            {quarter: 3, earnings: 32},
+            {quarter: 4, earnings: 24},
+            {quarter: 5, earnings: 36},
+            {quarter: 6, earnings: 38},
+            {quarter: 7, earnings: 43},
+            {quarter: 8, earnings: 59}
+          ]}
+          x="quarter"
+          y="earnings"
         />
       </VictoryChart>
     );

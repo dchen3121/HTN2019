@@ -2,8 +2,8 @@ export default {
   axis: {
     style: {
       axis: {
-        fill: "#ffffff",
-        stroke: "#ffffff",
+        fill: "#373738",
+        stroke: "#373738",
         strokeWidth: 1
       },
       grid: {
@@ -12,19 +12,19 @@ export default {
         pointerEvents: "painted"
       },
       ticks: {
-        fill: "transparent",
+        fill: "#373738",
         size: 1,
-        stroke: "#ffffff"
+        stroke: "#373738"
       },
       tickLabels: {
-        fill: "#ffffff"
+        fill: "#373738"
       }
     }
   },
   bar: {
     style: {
       data: {
-        fill: "#ffffff",
+        fill: "#373738",
         padding: 8,
         strokeWidth: 0
       }
@@ -34,32 +34,32 @@ export default {
     style: {
       max: {
         padding: 8,
-        stroke: "#ffffff",
+        stroke: "#373738",
         strokeWidth: 1
       },
       median: {
         padding: 8,
-        stroke: "#ffffff",
+        stroke: "#373738",
         strokeWidth: 1
       },
       min: {
         padding: 8,
-        stroke: "#ffffff",
+        stroke: "#373738",
         strokeWidth: 1
       },
       q1: {
         padding: 8,
-        fill: "#ffffff"
+        fill: "#373738"
       },
       q3: {
         padding: 8,
-        fill: "#ffffff"
+        fill: "#373738"
       }
     },
     boxWidth: 20
   },
   legend: {
-    Colorscale: ["#ffffff"],
+    Colorscale: ["#373738"],
     gutter: 10,
     orientation: "vertical",
     titleOrientation: "top",
@@ -72,13 +72,13 @@ export default {
   line: {
     style: {
       data: {
-        fill: "#ffffff",
-        stroke: "#ffffff",
+        fill: "#373738",
+        stroke: "#373738",
         strokeWidth: 2
       }
     }
   },
   stack: {
-    colorscale: ["#ffffff"]
+    colorscale: ["#373738"]
   }
 };

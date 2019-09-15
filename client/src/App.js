@@ -58,6 +58,9 @@ class App extends React.Component {
 
     this.toVideo = this.toVideo.bind(this);
     this.toData = this.toData.bind(this);
+    this.state = {
+      slouchedBefore: false
+    }
   }
 
   componentDidMount() {
@@ -83,10 +86,20 @@ class App extends React.Component {
   changeSlouch(slouchStatus) {
     console.log(slouchStatus);
     if (slouchStatus === "slouch") {
+      if (this.state.slouchedBefore) {
+        return;
+      }
+      this.setState({
+        slouchedBefore: true
+      })
+      new Notification("You're slouching! Correct your posture");
       this.setState({
         isSlouch: true
       });
     } else {
+      this.setState({
+        slouchedBefore: false
+      })
       this.setState({
         isSlouch: false
       });
@@ -103,11 +116,11 @@ class App extends React.Component {
           toData={this.toData}
           slouchStatus={this.state.isSlouch}
         ></Navigation>
-        <Webcam
+        {this.state.page === "video" ? <Webcam
           display={this.state.page === "video" ? "visible" : "hidden"}
           page={this.state.page}
           changeSlouch={slouchStatus => this.changeSlouch(slouchStatus)}
-        />
+        /> : <Graph id="Graph"/>} 
       </div>
     );
   }

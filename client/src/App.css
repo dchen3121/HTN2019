@@ -1,11 +1,11 @@
 body {
-  background: #252525;
+  background: #e6e6e6;
   margin-top: 10.5%;
 }
 
 h2,
 p {
-  color: #ffffff;
+  color: #292929;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 .App {
@@ -15,6 +15,11 @@ p {
 #Webcam {
   margin: auto;
   width: 70%;
+}
+
+#Graph {
+  margin: auto;
+  width: 60%;
 }
 
 #videoElement {
@@ -44,7 +49,7 @@ p {
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: rgb(61, 61, 61);
 }
 
 .App-link {

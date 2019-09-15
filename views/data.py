@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, session, reques
 from models.user import User, errors, requires_login
 from common.utils import Utils
 
-data_blueprint = Blueprint('data', __name__)
+data_blueprint = Blueprint('data', __name__, template_folder="templates", static_folder="static")
 
 user_data = dict(User.find_by_email("aeiglnukj@hahahah.com").val())
 user = User("aeiglnukj@hahahah.com", 1234, {'timesSlouched' : user_data['data'].get('timesSlouched')})
@@ -10,7 +10,7 @@ user = User("aeiglnukj@hahahah.com", 1234, {'timesSlouched' : user_data['data'].
 @data_blueprint.route('/')
 @requires_login
 def index():
-    return render_template('../client/build/index.html')
+    return render_template('build/index.html')
 
 
 @data_blueprint.route('/update', methods=['GET'])
