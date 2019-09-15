@@ -19,6 +19,10 @@ const data = [
   { quarter: 7, earnings: 7 }
 ];
 
+function generateData() {
+  var result = {};
+}
+
 function last7Days() {
   var result = [];
   for (var i = 0; i < 7; i++) {
@@ -30,6 +34,19 @@ function last7Days() {
   return result;
 }
 
+function getDataset() {
+  let oReq = new XMLHttpRequest();
+  oReq.open("GET", "localhost:4999/data/week");
+  var response = oReq.response;
+  console.log("SUCCESS");
+  console.log(response);
+  var final = {};
+  for (var i = 0; i < 7; i++) {
+    final[i] = { x: response[i].numSlouch, y: response[i].date };
+    // do something with "key" and "value" variables
+  }
+  return final;
+}
 class Graph extends React.Component {
   constructor() {
     super();
@@ -53,14 +70,18 @@ class Graph extends React.Component {
           textAnchor="middle"
         />
         {/*TO DO: FIX DATES to dynamically adjust */}
-        <VictoryAxis tickFormat={this.state.dates} />
+        <VictoryAxis
+          axisLabelComponent={["S", "M", "T", "W", "TH", "F", "S"]}
+        />
         {/*TO DO: CHANGE AXES */}
         <VictoryAxis dependentAxis tickFormat={x => `${x}`} />
         <VictoryBar
+          barRatio={0.5}
+          horizontal={true}
           style={{ data: { fill: "#69bed6" } }}
           data={data}
-          x="quarter"
-          y="earnings"
+          x="slouchCount"
+          y="day"
         />
       </VictoryChart>
     );
