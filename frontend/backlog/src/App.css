@@ -1,13 +1,14 @@
 body {
-  background: #373738;
+  background: #252525;
 }
 
 h2,
 p {
   color: #ffffff;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 #content {
@@ -15,10 +16,9 @@ p {
   justify-content: space-around;
 }
 #Graph {
-  border: 1px solid black;
   width: 33%;
   margin-top: 15%;
-  margin-left: 3%;
+  margin-left: -5%;
 }
 
 #Webcam {
@@ -26,8 +26,7 @@ p {
 }
 
 #right {
-  border: 1px solid black;
-  margin-top: 15%;
+  margin-top: 10%;
   margin-right: 3%;
 }
 
