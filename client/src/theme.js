@@ -2,8 +2,8 @@ export default {
   axis: {
     style: {
       axis: {
-        fill: "#69bed6",
-        stroke: "#69bed6",
+        fill: "#ffffff",
+        stroke: "#ffffff",
         strokeWidth: 1
       },
       grid: {
@@ -14,10 +14,10 @@ export default {
       ticks: {
         fill: "transparent",
         size: 1,
-        stroke: "#69bed6"
+        stroke: "#ffffff"
       },
       tickLabels: {
-        fill: "#69bed6"
+        fill: "#ffffff"
       }
     }
   },
@@ -59,7 +59,7 @@ export default {
     boxWidth: 20
   },
   legend: {
-    Colorscale: ["#69bed6"],
+    Colorscale: ["#ffffff"],
     gutter: 10,
     orientation: "vertical",
     titleOrientation: "top",
@@ -72,50 +72,13 @@ export default {
   line: {
     style: {
       data: {
-        fill: "#69bed6",
-        stroke: "#69bed6",
+        fill: "#ffffff",
+        stroke: "#ffffff",
         strokeWidth: 2
       }
     }
   },
-  pie: {
-    style: {
-      data: {
-        padding: 10,
-        stroke: "transparent",
-        strokeWidth: 1
-      }
-    },
-    Colorscale: ["#69bed6"],
-    width: 400,
-    height: 400,
-    padding: 50
-  },
-  scatter: {
-    style: {
-      data: {
-        fill: "#69bed6",
-        stroke: "transparent",
-        strokeWidth: 0
-      }
-    }
-  },
   stack: {
-    colorscale: ["#69bed6"]
-  },
-  voronoi: {
-    style: {
-      data: {
-        fill: "transparent",
-        stroke: "transparent",
-        strokeWidth: 0
-      },
-      flyout: {
-        stroke: "#69bed6",
-        strokeWidth: 1,
-        fill: "#f0f0f0",
-        pointerEvents: "none"
-      }
-    }
+    colorscale: ["#ffffff"]
   }
 };

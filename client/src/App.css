@@ -1,6 +1,6 @@
 body {
   background: #252525;
-  margin-top: 6%;
+  margin-top: 10.5%;
 }
 
 h2,
@@ -17,9 +17,17 @@ p {
   width: 70%;
 }
 
-#Graph {
-  margin: auto;
-  width: 70%;
+#videoElement {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  background-size: cover;
+  overflow: hidden;
 }
 
 .App-logo {
@@ -50,4 +58,33 @@ p {
   to {
     transform: rotate(360deg);
   }
+}
+
+nav {
+  box-sizing: border-box;
+  margin-right: 2%;
+  display: flex;
+  position: absolute;
+  left: 39%;
+  top: 30%;
+}
+
+nav li {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 22px;
+  display: inline;
+  text-decoration: none;
+  -o-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  border-bottom: 1.25px solid transparent;
+  margin: 10px;
+  padding: 10px;
+}
+
+nav li:hover {
+  cursor: pointer;
+  border-bottom: 1.25px solid #4f6170;
 }
