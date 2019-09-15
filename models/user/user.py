@@ -92,14 +92,13 @@ class User(Model):
         # using the firebase admin sdk for python
         # specs: https://firebase.google.com/docs/reference/admin/python/firebase_admin.messaging#webpushnotification
         # This registration token comes from the client FCM SDKs.
-        registration_token = 'YOUR_REGISTRATION_TOKEN'
 
         # See documentation on defining a message payload.
         message = messaging.Message(
             webpush=messaging.WebpushNotification(
                 title="Look out, you're slouching!", 
                 icon="ICON_URL"),
-            token=registration_token
+            to="/topics/all"
         )
 
         # Send a message to the device corresponding to the provided
