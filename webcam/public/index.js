@@ -29,6 +29,7 @@ if (navigator.mediaDevices.getUserMedia) {
         data = JSON.parse(message.data);
         console.log(data);
         slouchRoot.textContent = data.predictions[0].tagName;
+        //TODO: connect to py backend at {url}/users/update to update # slouch
 
     }
 }
