@@ -1,14 +1,13 @@
 import React from "react";
 
-class Statistics extends React.Component {
+class Stats extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      title: "Statistics",
-      stat1: "Times caught slouching",
-      stat2: "Time spent slouching",
-      stat3: "test"
+      title: "Yoga Pose of the Day:",
+      stat1: "Spinal Twist",
+      stat2: "Benefits: Spine, Back, Hips"
     };
   }
 
@@ -18,10 +17,9 @@ class Statistics extends React.Component {
         <h2>{this.state.title}</h2>
         <p>{this.state.stat1}</p>
         <p>{this.state.stat2}</p>
-        <p>{this.state.stat3}</p>
       </div>
     );
   }
 }
 
-export default Statistics;
+export default Stats;
