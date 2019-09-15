@@ -29,6 +29,8 @@ if (navigator.mediaDevices.getUserMedia) {
         data = JSON.parse(message.data);
         console.log(data);
         slouchRoot.textContent = data.predictions[0].tagName;
+        request.open('GET', 'https://ghibliapi.herokuapp.com/films', true)
+        //TODO: connect to py backend at localhost:4999/users/update to update # slouch
 
     }
 }

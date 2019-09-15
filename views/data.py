@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, session, request
+from flask import Blueprint, render_template, redirect, url_for, session, request, send_from_directory
 from models.user import User, errors, requires_login
 from common.utils import Utils
 
@@ -8,7 +8,11 @@ data_blueprint = Blueprint('data', __name__)
 @data_blueprint.route('/')
 @requires_login
 def index():
-    return render_template('data/index.html')
+    return render_template('build/index.html')
+
+@data_blueprint.route("/<path:path>")
+def send_files(path):
+    return send_from_directory("build", path)
 
 
 @data_blueprint.route('/update', methods=['GET'])
