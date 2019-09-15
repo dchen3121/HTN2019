@@ -36,6 +36,7 @@ class Webcam extends React.Component {
         var data = JSON.parse(message.data);
         console.log(data);
         slouchRoot.textContent = data.predictions[0].tagName;
+        // TODO: connect to py backend at {url}/users/update to update # slouch
       };
     }
   }
