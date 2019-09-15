@@ -37,7 +37,7 @@ class User(Model):
             raise errors.UserNotFoundError('A user with this email was not found.')
 
     @classmethod
-    def register_user(cls, email: str, password: str) -> bool:
+    def register_user(cls, email: str, password: str):
         if not Utils.email_is_valid(email):
             # email is invalid
             raise errors.InvalidEmailError('The email does not have the right format.')
@@ -47,11 +47,22 @@ class User(Model):
         #     raise errors.UserAlreadyExistsError('The email you used to register already exists.')
         # except errors.UserNotFoundError:
         #     # success!
-        try:
-            User(email, Utils.hash_password(password)).register_model(User(email, Utils.hash_password(password)))
-        except Exception as e:
-            pass
-        return True
+        # try:
+        Database.insert(email, {
+                'password': Utils.hash_password(password),
+                'timesSlouched': [
+                    {'date': "2019-09-09", 'numSlouch': 7},
+                    {'date': "2019-09-10", 'numSlouch': 13},
+                    {'date': "2019-09-11", 'numSlouch': 15},
+                    {'date': "2019-09-12", 'numSlouch': 10},
+                    {'date': "2019-09-13", 'numSlouch': 7},
+                    {'date': "2019-09-14", 'numSlouch': 11},
+                    {'date': "2019-09-15", 'numSlouch': 0}
+                ]
+        })
+        # except Exception as e:
+        #     print(str(e))
+        #     pass
 
     @classmethod
     def is_login_valid(cls, email: str, password: str) -> bool:
@@ -85,7 +96,7 @@ class User(Model):
             else:
                 self.data['timesSlouched'][6]['numSlouch'] += 1
             # self.add_to_firebase()
-            # self.save_to_firebase()
+            self.save_to_firebase()
 
     @staticmethod
     def get_slouch_data(email: str) -> list:

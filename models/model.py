@@ -23,6 +23,3 @@ class Model(metaclass=ABCMeta):
     @abstractmethod
     def json(self) -> Dict:
         raise NotImplementedError
-
-    def register_model(self, user):
-        Database.new_user(user)

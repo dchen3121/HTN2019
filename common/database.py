@@ -25,7 +25,7 @@ class Database:
 
     @staticmethod
     def insert(username: str, data: Dict):
-        Database.DATABASE.child('users').child(username.split('@')[0]).child(data).set(data)
+        Database.DATABASE.child('users').child(username.split('@')[0]).set(data)
 
     @staticmethod
     def find(username: str):
@@ -42,9 +42,3 @@ class Database:
     @staticmethod
     def remove(username: str, query: Dict):
         Database.DATABASE.child('users').child(username.split('@')[0]).child(query).remove()
-
-    @staticmethod
-    def new_user(user):
-        # Database.AUTH.create_user_with_email_and_password(user.email, user.password)
-        Database.DATABASE.child('users').update(user.email.split('@')[0])
-        Database.DATABASE.child('users').child(user.email.split('@')[0]).set(user.json())
