@@ -39,31 +39,53 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
-  <script src="/__/firebase/6.6.1/firebase.js"></script>
-   <!-- Initialize Firebase -->
-   <script src="/__/firebase/init.js"></script>
-   <script>
-    // Retrieve Firebase Messaging object.
-    const messaging = firebase.messaging();
-    messaging.usePublicVapidKey('BGB7RtthEiHUnoOy1-6SJ6KBn_yTr1N5fQAGlZoawm0dE0MP_C_7YSC6rulGbn2_u1l-JugDJBcDh_E8b4dpq0I');
-    // Get Instance ID token. Initially this makes a network call, once retrieved
-    // subsequent calls to getToken will return from cache.
-    messaging.getToken().then((currentToken) => {
-      if (currentToken) {
-        sendTokenToServer(currentToken);
-        updateUIForPushEnabled(currentToken);
-        console.log('token');
-      } else {
-        // Show permission request.
-        console.log('No Instance ID token available. Request permission to generate one.');
-        // Show permission UI.
-        updateUIForPushPermissionRequired();
-        setTokenSentToServer(false);
-      }
-    }).catch((err) => {
-      console.log('An error occurred while retrieving token. ', err);
-      showToken('Error retrieving Instance ID token. ', err);
-      setTokenSentToServer(false);
-    });</script>
+    <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-messaging.js"></script>
+
+    <!-- Initialize Firebase -->
+    <script>
+      // Retrieve Firebase Messaging object.
+      let firebaseConfig = {
+        apiKey: "AIzaSyBSO7IT5_sfrmwWq-qUH8iBskqq5N7A_08",
+        authDomain: "htn2019-d987b.firebaseapp.com",
+        databaseURL: "https://htn2019-d987b.firebaseio.com",
+        storageBucket: "htn2019-d987b.appspot.com",
+        serviceAccount:
+          "do_not_commit/htn2019-d987b-firebase-adminsdk-pz1d6-52193b1ef8.json",
+        messagingSenderId: "472926526203"
+      };
+      firebase.initializeApp(firebaseConfig);
+      const messaging = firebase.messaging();
+      messaging.usePublicVapidKey(
+        "BGB7RtthEiHUnoOy1-6SJ6KBn_yTr1N5fQAGlZoawm0dE0MP_C_7YSC6rulGbn2_u1l-JugDJBcDh_E8b4dpq0I"
+      );
+
+      // Get Instance ID token. Initially this makes a network call, once retrieved
+      // subsequent calls to getToken will return from cache.
+      messaging.requestPermission().then(() => {
+        messaging
+          .getToken()
+          .then(currentToken => {
+            if (currentToken) {
+              sendTokenToServer(currentToken);
+              updateUIForPushEnabled(currentToken);
+              console.log("token");
+            } else {
+              // Show permission request.
+              console.log(
+                "No Instance ID token available. Request permission to generate one."
+              );
+              // Show permission UI.
+              updateUIForPushPermissionRequired();
+              setTokenSentToServer(false);
+            }
+          })
+          .catch(err => {
+            console.log("An error occurred while retrieving token. ", err);
+            showToken("Error retrieving Instance ID token. ", err);
+            setTokenSentToServer(false);
+          });
+      });
+    </script>
   </body>
 </html>

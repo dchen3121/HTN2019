@@ -1,11 +1,8 @@
 import React from "react";
 import request from "request";
+import Transition from "react-addons-css-transition-group";
 
 class Webcam extends React.Component {
-  constructor() {
-    super();
-  }
-
   establishWebcam() {
     var video = document.querySelector("video");
     // var canvas = document.createElement("canvas");
@@ -34,11 +31,11 @@ class Webcam extends React.Component {
           let oReq = new XMLHttpRequest();
           oReq.open(
             "POST",
-            "https://eastus.api.cognitive.microsoft.com/customvision/v3.0/Prediction/0799ea6d-d91a-487f-9f89-c06de9cc1466/classify/iterations/Iteration7/image"
+            "https://eastus.api.cognitive.microsoft.com/customvision/v3.0/Prediction/40e592e7-67fd-4e0f-9122-02d3631f7f4f/classify/iterations/Iteration1/image"
           );
           oReq.setRequestHeader(
             "Prediction-Key",
-            "60c283a92d554a958c43d0da935e9dfc"
+            "17b8411197b6462094a8292195f5725e"
           );
           oReq.setRequestHeader("Content-Type", "application/octet-stream");
 
@@ -52,7 +49,7 @@ class Webcam extends React.Component {
 
           oReq.send(b);
         });
-      }, 1000);
+      }, 5000);
     }
   }
 
@@ -62,10 +59,12 @@ class Webcam extends React.Component {
 
   render() {
     return (
-      <div className="webcam">
-        <video autoplay="true" id="videoElement"></video>
-        <div id="info">
-          <p id="slouch"></p>
+      <div>
+        <div className="webcam">
+          <video autoplay="true" id="videoElement"></video>
+          <div id="info">
+            <p id="slouch"></p>
+          </div>
         </div>
       </div>
     );
