@@ -8,11 +8,11 @@ data_blueprint = Blueprint('data', __name__)
 @data_blueprint.route('/')
 @requires_login
 def index():
-    return render_template('build/index.html')
+    return render_template('../client/build/index.html')
 
 @data_blueprint.route("/<path:path>")
 def send_files(path):
-    return send_from_directory("build", path)
+    return send_from_directory("client/build", path)
 
 
 @data_blueprint.route('/update', methods=['GET'])
